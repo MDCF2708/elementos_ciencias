@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de la Tabla Periódica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        #game-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333333;
+        }
+
+        #question {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        #options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .option {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .option:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1>Juego de la Tabla Periódica</h1>
+    <p id="question"></p>
+    <div id="options"></div>
+    <p id="result"></p>
+</div>
+
+<script>
+    const elements = [
+    { name: "Hidrógeno", symbol: "H" },
+    { name: "Helio", symbol: "He" },
+    { name: "Litio", symbol: "Li" },
+    { name: "Berilio", symbol: "Be" },
+    { name: "Boro", symbol: "B" },
+    { name: "Carbono", symbol: "C" },
+    { name: "Nitrógeno", symbol: "N" },
+    { name: "Oxígeno", symbol: "O" },
+    { name: "Flúor", symbol: "F" },
+    { name: "Neón", symbol: "Ne" },
+    { name: "Sodio", symbol: "Na" },
+    { name: "Magnesio", symbol: "Mg" },
+    { name: "Aluminio", symbol: "Al" },
+    { name: "Silicio", symbol: "Si" },
+    { name: "Fósforo", symbol: "P" },
+    { name: "Azufre", symbol: "S" },
+    { name: "Cloro", symbol: "Cl" },
+    { name: "Argón", symbol: "Ar" },
+    { name: "Potasio", symbol: "K" },
+    { name: "Calcio", symbol: "Ca" },
+    { name: "Escandio", symbol: "Sc" },
+    { name: "Titanio", symbol: "Ti" },
+    { name: "Vanadio", symbol: "V" },
+    { name: "Cromo", symbol: "Cr" },
+    { name: "Manganeso", symbol: "Mn" },
+    { name: "Hierro", symbol: "Fe" },
+    { name: "Cobalto", symbol: "Co" },
+    { name: "Níquel", symbol: "Ni" },
+    { name: "Cobre", symbol: "Cu" },
+    { name: "Zinc", symbol: "Zn" },
+    { name: "Galio", symbol: "Ga" },
+    { name: "Germanio", symbol: "Ge" },
+    { name: "Arsénico", symbol: "As" },
+    { name: "Selenio", symbol: "Se" },
+    { name: "Bromo", symbol: "Br" },
+    { name: "Kriptón", symbol: "Kr" },
+    { name: "Rubidio", symbol: "Rb" },
+    { name: "Estroncio", symbol: "Sr" },
+    { name: "Itrio", symbol: "Y" },
+    { name: "Circonio", symbol: "Zr" },
+    { name: "Niobio", symbol: "Nb" },
+    { name: "Molibdeno", symbol: "Mo" },
+    { name: "Tecnecio", symbol: "Tc" },
+    { name: "Rutenio", symbol: "Ru" },
+    { name: "Rodio", symbol: "Rh" },
+    { name: "Paladio", symbol: "Pd" },
+    { name: "Plata", symbol: "Ag" },
+    { name: "Cadmio", symbol: "Cd" },
+    { name: "Indio", symbol: "In" },
+    { name: "Estaño", symbol: "Sn" },
+    { name: "Antimonio", symbol: "Sb" },
+    { name: "Telurio", symbol: "Te" },
+    { name: "Yodo", symbol: "I" },
+    { name: "Xenón", symbol: "Xe" },
+    { name: "Cesio", symbol: "Cs" },
+    { name: "Bario", symbol: "Ba" },
+    { name: "Lantano", symbol: "La" },
+    { name: "Cerio", symbol: "Ce" },
+    { name: "Praseodimio", symbol: "Pr" },
+    { name: "Neodimio", symbol: "Nd" },
+    { name: "Prometio", symbol: "Pm" },
+    { name: "Samario", symbol: "Sm" },
+    { name: "Europio", symbol: "Eu" },
+    { name: "Gadolinio", symbol: "Gd" },
+    { name: "Terbio", symbol: "Tb" },
+    { name: "Disprosio", symbol: "Dy" },
+    { name: "Holmio", symbol: "Ho" },
+    { name: "Erbio", symbol: "Er" },
+    { name: "Tulio", symbol: "Tm" },
+    { name: "Iterbio", symbol: "Yb" },
+    { name: "Lutecio", symbol: "Lu" },
+    { name: "Hafnio", symbol: "Hf" },
+    { name: "Tántalo", symbol: "Ta" },
+    { name: "Wolframio", symbol: "W" },
+    { name: "Renio", symbol: "Re" },
+    { name: "Osmio", symbol: "Os" },
+    { name: "Iridio", symbol: "Ir" },
+    { name: "Platino", symbol: "Pt" },
+    { name: "Oro", symbol: "Au" },
+    { name: "Mercurio", symbol: "Hg" },
+    { name: "Talio", symbol: "Tl" },
+    { name: "Plomo", symbol: "Pb" },
+    { name: "Bismuto", symbol: "Bi" },
+    { name: "Polonio", symbol: "Po" },
+    { name: "Astato", symbol: "At" },
+    { name: "Radón", symbol: "Rn" },
+    { name: "Francio", symbol: "Fr" },
+    { name: "Radio", symbol: "Ra" },
+    { name: "Actinio", symbol: "Ac" },
+    { name: "Torio", symbol: "Th" },
+    { name: "Protactinio", symbol: "Pa" },
+    { name: "Uranio", symbol: "U" },
+    { name: "Neptunio", symbol: "Np" },
+    { name: "Plutonio", symbol: "Pu" },
+    { name: "Americio", symbol: "Am" },
+    { name: "Curio", symbol: "Cm" },
+    { name: "Berkelio", symbol: "Bk" },
+    { name: "Californio", symbol: "Cf" },
+    { name: "Einsteinio", symbol: "Es" },
+    { name: "Fermio", symbol: "Fm" },
+    { name: "Mendelevio", symbol: "Md" },
+    { name: "Nobelio", symbol: "No" },
+    { name: "Lawrencio", symbol: "Lr" },
+    { name: "Rutherfordio", symbol: "Rf" },
+    { name: "Dubnio", symbol: "Db" },
+    { name: "Seaborgio", symbol: "Sg" },
+    { name: "Bohrio", symbol: "Bh" },
+    { name: "Hassio", symbol: "Hs" },
+    { name: "Meitnerio", symbol: "Mt" },
+    { name: "Darmstadtio", symbol: "Ds" },
+    { name: "Roentgenio", symbol: "Rg" },
+    { name: "Copernicio", symbol: "Cn" },
+    { name: "Nihonio", symbol: "Nh" },
+    { name: "Flerovio", symbol: "Fl" },
+    { name: "Moscovio", symbol: "Mc" },
+    { name: "Livermorio", symbol: "Lv" },
+    { name: "Tenesino", symbol: "Ts" },
+    { name: "Oganesón", symbol: "Og" }
+];
+
+
+    let currentElement;
+    const question = document.getElementById("question");
+    const options = document.getElementById("options");
+    const result = document.getElementById("result");
+
+    function startGame() {
+        result.textContent = "";
+        currentElement = elements[Math.floor(Math.random() * elements.length)];
+        question.textContent = `¿Cuál es el símbolo del elemento ${currentElement.name}?`;
+
+        const shuffledOptions = elements
+            .slice()
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 3);
+        if (!shuffledOptions.includes(currentElement)) shuffledOptions[0] = currentElement;
+        shuffledOptions.sort(() => Math.random() - 0.5);
+
+        options.innerHTML = "";
+        shuffledOptions.forEach((element) => {
+            const optionBtn = document.createElement("button");
+            optionBtn.textContent = element.symbol;
+            optionBtn.className = "option";
+            optionBtn.onclick = () => checkAnswer(element);
+            options.appendChild(optionBtn);
+        });
+    }
+
+    function checkAnswer(selectedElement) {
+        if (selectedElement === currentElement) {
+            result.textContent = "¡Correcto! Pasamos al próximo elemento.";
+        } else {
+            result.textContent = "Incorrecto. Intenta de nuevo.";
+        }
+        setTimeout(startGame, 1500);
+    }
+
+    startGame();
+</script>
+
+</body>
+</html>
